@@ -235,6 +235,26 @@ namespace AutomateDeploymentRequest
             }
         }
 
+
+        private string GetMailChainId(int apiIndex)
+        {
+            string mailChainId = "";
+            switch (apiIndex)
+            {
+                case 0:
+                    mailChainId = "<CADJRN4j-yOF0rZuFQqKUECMEgqbJ9XPFFy-Ddyik6XUP7+S91w@mail.gmail.com>";
+                    break;
+                case 1:
+                    mailChainId = "<CADJRN4j7jevb3wLQ+w6XHq4F1egvr-jPesH0jv_c0+khwqmWkg@mail.gmail.com>";
+                    break;
+                case 2:
+                    mailChainId = "<CADJRN4ga5C+LJONbtAbLMmOUx+6v_CfmmYz35xc-XvGNB1Zfmg@mail.gmail.com>";
+                    break;
+            }
+
+            return mailChainId;
+
+        }
         private async void SendDeploymentRequest_Click(object sender, EventArgs e)
         {
             try
@@ -264,8 +284,9 @@ namespace AutomateDeploymentRequest
                             });
                             
                             string emailBody = GenerateEmailBody(driveUpload.Value, APISelector.SelectedIndex);
+                            string mailChainId = GetMailChainId(APISelector.SelectedIndex);
                             //add later 
-                            string message = $"To: manish.singh2@iifl.com\r\nCc :harshal.shah@iifl.com,amal.murali@iifl.com,suman.c@livlong.com,anjani.gente@livlong.com,devops@livlong.com\r\nSubject: {APISelector.Text} UAT deployment\r\nContent-Type: text/html;charset=utf-8\r\n\r\n{emailBody}";
+                            string message = $"To: manish.singh2@iifl.com\r\nCc :harshal.shah@iifl.com,amal.murali@iifl.com,suman.c@livlong.com,anjani.gente@livlong.com,devops@livlong.com\r\nIn-Reply-To:{mailChainId}\r\nReferences:{mailChainId}\r\nSubject: {APISelector.Text} UAT deployment\r\nContent-Type: text/html;charset=utf-8\r\n\r\n{emailBody}";
 
                             var msg = new Google.Apis.Gmail.v1.Data.Message();
                             msg.Raw = Base64UrlEncode(message.ToString());
